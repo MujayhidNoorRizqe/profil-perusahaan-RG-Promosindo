@@ -221,5 +221,32 @@
 		$(".preloader").fadeOut("slow");
 		initIsotope();
 	});
+  /* === Smooth Scroll untuk navigasi === */
+  $(document).on('click', 'a[href^="#"]', function (event) {
+      event.preventDefault();
+
+      const target = $($.attr(this, 'href'));
+      if (target.length) {
+          $('html, body').animate({
+              scrollTop: target.offset().top - 70
+          }, 800, 'easeInOutExpo');
+      }
+  });
+
+  /* === Aktifkan highlight menu saat scroll === */
+  $(window).on('scroll', function () {
+      const scrollPos = $(document).scrollTop();
+      $('.menu ul li a').each(function () {
+          const currLink = $(this);
+          const refElement = $(currLink.attr("href"));
+
+          if (refElement.position() &&
+              refElement.position().top - 100 <= scrollPos &&
+              refElement.position().top + refElement.height() > scrollPos) {
+              $('.menu ul li a').removeClass("active");
+              currLink.addClass("active");
+          }
+      });
+  });
 
 })(jQuery);

@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     SettingController
 };
 use Illuminate\Support\Facades\Route;
-use App\Models\Project;
+use Illuminate\Http\Request;
+use App\Models\{Project, Contact};
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,35 @@ Route::get('/', function () {
     // Tampilkan view utama frontend (resources/views/frontend/index.blade.php)
     return view('frontend.index', compact('projects'));
 })->name('home');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE KONTAK (PUBLIC)
+|--------------------------------------------------------------------------
+|
+| Digunakan oleh form "Kontak Kami" di halaman utama.
+| Data pesan akan disimpan ke tabel contacts.
+|
+*/
+
+Route::post('/contact', function (Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'message' => 'required|string|max:1000',
+    ]);
+
+    // Simpan ke database
+    Contact::create([
+        'nama' => $request->name,
+        'email' => $request->email,
+        'pesan' => $request->message,
+    ]);
+
+    return back()->with('success', 'Pesan Anda berhasil dikirim!');
+})->name('contact.send');
 
 
 

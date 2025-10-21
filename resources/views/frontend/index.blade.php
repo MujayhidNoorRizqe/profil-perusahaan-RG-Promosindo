@@ -9,5 +9,7 @@
     @include('frontend.sections.about')
     @include('frontend.sections.services')
     @include('frontend.sections.portfolio')
+    @include('frontend.sections.contact')
+    @include('frontend.sections.footer')
 </div>
 @endsection
